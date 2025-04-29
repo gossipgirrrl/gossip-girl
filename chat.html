@@ -23,9 +23,9 @@
   <main>
     <section id="chat-room">
       <h2>Anonymous Chat</h2>
-      <div id="chat-messages"></div>
-      <form id="chat-form">
-        <input type="text" id="chat-input" placeholder="Say something..." required>
+      <div id="chat-messages" style="height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;"></div>
+      <form id="chat-form" style="margin-top: 10px;">
+        <input type="text" id="chat-input" placeholder="Say something..." required style="width: 80%;" />
         <button id="emoji-button" type="button">😊</button>  
         <button type="submit">Send</button>
       </form>
@@ -35,6 +35,8 @@
   <footer>
     <p>XOXO, Gossip Girl</p>
   </footer>
+
+
 
   <script src="chat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.3/dist/index.min.js"></script>
@@ -52,6 +54,8 @@
     chatInput.focus();
   });
 </script>
+<script type="module" src="chat.js"></script>
+
 
 </body>
 </html>
