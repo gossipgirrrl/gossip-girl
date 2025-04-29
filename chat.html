@@ -26,6 +26,7 @@
       <div id="chat-messages"></div>
       <form id="chat-form">
         <input type="text" id="chat-input" placeholder="Say something..." required>
+        <button id="emoji-button" type="button">😊</button>  
         <button type="submit">Send</button>
       </form>
     </section>
@@ -36,5 +37,21 @@
   </footer>
 
   <script src="chat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.3/dist/index.min.js"></script>
+<script>
+  const picker = new EmojiButton();
+  const chatInput = document.getElementById("chat-input");
+  const emojiBtn = document.getElementById("emoji-button");
+
+  emojiBtn.addEventListener("click", () => {
+    picker.togglePicker(emojiBtn);
+  });
+
+  picker.on("emoji", emoji => {
+    chatInput.value += emoji;
+    chatInput.focus();
+  });
+</script>
+
 </body>
 </html>
