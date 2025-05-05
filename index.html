@@ -28,11 +28,20 @@
  
     <div id="gossip-posts">
       <div class="gossip-post">
-<h3>Spotted:</h3>
-  <p>Gossip Girl is here... and she's got a whole new playground.</p>
-<p>This website is the new secret spot for all the Technological Hub students to spill the tea, share secrets, and stir the drama.</p>
- <small>— XOXO, Gossip Queen</small>
-   
+<h2>Spotted!</h2>
+  <p><strong>Gossip Queen</strong> is finally here — and she's got a brand-new playground!</p>
+  <p>From mysterious stories to jaw-dropping confessions, this space is now open to all the untold truths, spicy memories, and secrets worth whispering.</p>
+  <p>It’s your turn to spill. Whether it's something that happened to you or a tale you think the world deserves to hear, <strong>Gossip Queen</strong> is all ears.</p>
+  <p>And don't worry, darling... anonymity is guaranteed.</p>
+  <p>This first chapter is dedicated to the brilliant, chaotic, and unforgettable students of the <strong>Technological Hub</strong>. You’ve always had stories. Now you’ve got a throne to share them from.</p>
+  <p class="xoxo">XOXO, Gossip Queen</p>
+   <button class="like-btn">❤ Like</button> <span class="like-count">0</span>
+
+  <div class="comment-section">
+    <input type="text" class="comment-input" placeholder="Leave a comment...">
+    <button class="comment-btn">Post</button>
+    <div class="comments-list"></div>
+
 
              </div>
     </section>
@@ -68,6 +77,25 @@
   });
 </script>
 
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, doc, setDoc, getDoc, onSnapshot, updateDoc, increment, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAcgrGvWtjVrDa5aNbeRDlrt3plZM1hSvE",
+  authDomain: "gossip-girl-45241.firebaseapp.com",
+  projectId: "gossip-girl-45241",
+  storageBucket: "gossip-girl-45241.appspot.com",
+  messagingSenderId: "1088508330152",
+  appId: "1:1088508330152:web:1916e93660d824628e029d"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Now you’re ready for likes and comments
+</script>
 </body>
 </html>
 

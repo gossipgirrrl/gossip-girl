@@ -182,3 +182,19 @@ footer {
   color: white;
 }
 
+.comment-section {
+  margin-top: 10px;
+}
+.comment-input {
+  width: 80%;
+  padding: 5px;
+}
+.comment-btn {
+  padding: 5px 10px;
+}
+.comments-list div {
+  margin-top: 5px;
+  background: #eee;
+  padding: 5px;
+  border-radius: 5px;
+}
