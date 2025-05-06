@@ -198,3 +198,21 @@ footer {
   padding: 5px;
   border-radius: 5px;
 }
+.start-anonymous {
+  text-align: center;
+  margin: 40px auto;
+}
+
+#startButton {
+  padding: 12px 24px;
+  font-size: 1.1em;
+  background-color: #da70d6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#startButton:hover {
+  background-color: #c154c1;
+}

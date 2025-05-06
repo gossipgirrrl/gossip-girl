@@ -21,12 +21,16 @@
   </header>
 
   <main>
-    <section id="gossip-feed">
-      <h2>Latest Gossip</h2>
+  <section class="start-anonymous">
+  <h2>Enter Gossip Queen's World</h2>
+  <button id="startButton">Start Anonymously</button>
+</section>
+
+  <section id="gossip-feed">
+      <h2>Latest Stories</h2>
       <div id="gossip-posts">
         <!-- Gossip will appear here -->
  
-    <div id="gossip-posts">
       <div class="gossip-post">
 <h2>Spotted!</h2>
   <p><strong>Gossip Queen</strong> is finally here — and she's got a brand-new playground!</p>
@@ -37,6 +41,11 @@
   <p class="xoxo">XOXO, Gossip Queen</p>
    <button class="like-btn">❤ Like</button> <span class="like-count">0</span>
 
+<div class="comments">
+  <input type="text" class="comment-input" placeholder="Add a comment...">
+  <button class="comment-btn">Comment</button>
+  <div class="comments-list"></div>
+</div>
 
              </div>
     </section>
@@ -75,22 +84,83 @@
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, doc, setDoc, getDoc, onSnapshot, updateDoc, increment, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import {
+    getFirestore, collection, doc, setDoc, getDoc,
+    onSnapshot, updateDoc, increment, addDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAcgrGvWtjVrDa5aNbeRDlrt3plZM1hSvE",
-  authDomain: "gossip-girl-45241.firebaseapp.com",
-  projectId: "gossip-girl-45241",
-  storageBucket: "gossip-girl-45241.appspot.com",
-  messagingSenderId: "1088508330152",
-  appId: "1:1088508330152:web:1916e93660d824628e029d"
+    authDomain: "gossip-girl-45241.firebaseapp.com",
+    projectId: "gossip-girl-45241",
+    storageBucket: "gossip-girl-45241.appspot.com",
+    messagingSenderId: "1088508330152",
+    appId: "1:1088508330152:web:1916e93660d824628e029d"
   };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Now you’re ready for likes and comments
+  // Gossip post ID (hardcoded for now)
+  const storyId = "gossip-post-1";
+  const postRef = doc(db, "posts", storyId);
+
+  // Initialize the post if it doesn't exist
+  const docSnap = await getDoc(postRef);
+  if (!docSnap.exists()) {
+    await setDoc(postRef, { likes: 0 });
+  }
+
+  // Live update likes
+  onSnapshot(postRef, (doc) => {
+    document.querySelector('.like-count').textContent = doc.data().likes || 0;
+  });
+
+  // Like button handler
+  document.querySelector('.like-btn').addEventListener('click', () => {
+    updateDoc(postRef, { likes: increment(1) });
+  });
+
+  // Comments section
+  const commentsCol = collection(db, "posts", storyId, "comments");
+
+  document.querySelector('.comment-btn').addEventListener('click', async () => {
+    const input = document.querySelector('.comment-input');
+    const text = input.value.trim();
+    if (text) {
+      await addDoc(commentsCol, {
+        text: text,
+        created: new Date()
+      });
+      input.value = "";
+    }
+  });
+
+  // Live update comments
+  onSnapshot(commentsCol, (snapshot) => {
+    const commentsDiv = document.querySelector('.comments-list');
+    commentsDiv.innerHTML = "";
+    snapshot.forEach(doc => {
+      const c = doc.data();
+      const div = document.createElement('div');
+      div.textContent = c.text;
+      commentsDiv.appendChild(div);
+    });
+  });
 </script>
+<script>
+  document.getElementById("startButton").addEventListener("click", function () {
+    const names = ["Royal", "Whisperer", "Velvet", "Crown", "Secret", "Diva", "Queen", "Sparkle"];
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    const randomNum = Math.floor(100 + Math.random() * 900);
+    const username = randomName + "_" + randomNum;
+
+    sessionStorage.setItem("chatNick", username);
+    window.location.href = "chat.html"; // Redirect to chat or wherever you want
+  });
+</script>
+
+
 </body>
 </html>
 
