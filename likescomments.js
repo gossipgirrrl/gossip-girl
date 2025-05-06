@@ -1,4 +1,4 @@
-const storyId = "story1"; // You can make this dynamic for each post
+const storyId = "gossip-posts"; // You can make this dynamic for each post
 
 const postRef = doc(db, "posts", storyId);
 
