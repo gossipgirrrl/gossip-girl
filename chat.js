@@ -29,13 +29,15 @@ const messagesDiv = document.getElementById("chat-messages");
 const chatForm = document.getElementById("chat-form");
 const chatInput = document.getElementById("chat-input");
 
-// Random anonymous nickname (stored in session)
-const nicknames = ["Outsider", "TeaDropper", "MaskedBabe", "SneakyOne", "SpicySpill", "Anonymous"];
-const username = sessionStorage.getItem("chatNick") || (() => {
-  const name = nicknames[Math.floor(Math.random() * nicknames.length)] + Math.floor(Math.random() * 1000);
-  sessionStorage.setItem("chatNick", name);
-  return name;
-})();
+// Get or generate username
+let username = sessionStorage.getItem("chatNick");
+if (!username) {
+  const names = ["Royal", "Whisperer", "Velvet", "Crown", "Secret", "Diva", "Queen", "Sparkle"];
+  const randomName = names[Math.floor(Math.random() * names.length)];
+  const randomNum = Math.floor(100 + Math.random() * 900);
+  username = `${randomName}_${randomNum}`;
+  sessionStorage.setItem("chatNick", username);
+}
 
 // Send message
 chatForm.addEventListener("submit", async (e) => {
@@ -55,17 +57,18 @@ chatForm.addEventListener("submit", async (e) => {
   }
 });
 
-// Display messages (most recent at the bottom)
+// Display messages
 const q = query(collection(db, "messages"), orderBy("created", "asc"));
 onSnapshot(q, (snapshot) => {
   let html = "";
   snapshot.forEach((doc) => {
     const msg = doc.data();
     const time = msg.created?.toDate?.().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) || "⏳";
-    html += `<div class="msg">
-               <strong>${msg.user}</strong>: ${msg.text}
-               <br><small>${time}</small>
-             </div>`;
+    html += `
+      <div class="msg">
+        <strong>${msg.user}</strong>: ${msg.text}
+        <br><small>${time}</small>
+      </div>`;
   });
   messagesDiv.innerHTML = html;
   messagesDiv.scrollTop = messagesDiv.scrollHeight;

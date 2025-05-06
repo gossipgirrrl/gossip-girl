@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - Gossip Queen</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">Gossip Queen</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="submit.html">Submit Gossip</a></li>
+        <li><a href="chat.html">Chat</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="auth-main">
+    <h2>Create Your Throne</h2>
+    <form class="auth-form" id="signup-form">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+      <button type="submit">Sign Up</button>
+      <p>Already have an account? <a href="login.html">Sign in</a></p>
+    </form>
+  </main>
+
+  <footer>
+    <p>XOXO, Gossip Queen</p>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+     apiKey: "AIzaSyAcgrGvWtjVrDa5aNbeRDlrt3plZM1hSvE",
+    authDomain: "gossip-girl-45241.firebaseapp.com",
+    projectId: "gossip-girl-45241",
+    storageBucket: "gossip-girl-45241.appspot.com",
+    messagingSenderId: "1088508330152",
+    appId: "1:1088508330152:web:1916e93660d824628e029d"
+
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        const names = ["Royal", "Whisperer", "Velvet", "Crown", "Secret", "Diva", "Queen", "Sparkle"];
+        const randomName = names[Math.floor(Math.random() * names.length)];
+        const randomNum = Math.floor(100 + Math.random() * 900);
+        const username = `${randomName}_${randomNum}`;
+
+        await setDoc(doc(db, "users", user.uid), { username });
+
+        window.location.href = "chat.html";
+      } catch (error) {
+        alert("Sign-up failed: " + error.message);
+      }
+    });
+  </script>
+</body>
+</html>
