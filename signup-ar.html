@@ -1,42 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up - Gossip Queen</title>
+  <title>إنشاء حساب - Gossip Queen</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Amiri', serif;
+    }
+  </style>
 </head>
 <body>
   <header>
     <div class="logo">Gossip Queen</div>
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="submit.html">Submit Gossip</a></li>
-        <li><a href="chat.html">Chat</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="submit.html">أرسلي قصتك</a></li>
+        <li><a href="chat.html">الدردشة</a></li>
+        <li><a href="about.html">من نحن</a></li>
+
       </ul>
     </nav>
-<div class="lang-switcher">
-  <a href="index-ar.html">العربية</a>
-</div>
-
+    <div class="lang-switcher">
+      <a href="signup.html">English</a>
+    </div>
   </header>
 
   <main class="auth-main">
-    <h2>Create Your Throne</h2>
+    <h2>أنشئ عرشك الآن</h2>
     <form class="auth-form" id="signup-form">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <input type="password" id="confirm-password" placeholder="Confirm Password" required />
-      <button type="submit">Sign Up</button>
-      <p>Already have an account? <a href="login.html">Sign in</a></p>
+      <input type="email" id="email" placeholder="البريد الإلكتروني" required />
+      <input type="password" id="password" placeholder="كلمة المرور" required />
+      <input type="password" id="confirm-password" placeholder="تأكيد كلمة المرور" required />
+      <button type="submit">تسجيل</button>
+      <p>هل لديك حساب بالفعل؟ <a href="login-ar.html">سجّل الدخول</a></p>
     </form>
   </main>
 
   <footer>
-    <p>XOXO, Gossip Queen</p>
+    <p>XOXO، Gossip Queen</p>
   </footer>
 
   <script type="module">
@@ -45,13 +50,12 @@
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
-     apiKey: "AIzaSyAcgrGvWtjVrDa5aNbeRDlrt3plZM1hSvE",
-    authDomain: "gossip-girl-45241.firebaseapp.com",
-    projectId: "gossip-girl-45241",
-    storageBucket: "gossip-girl-45241.appspot.com",
-    messagingSenderId: "1088508330152",
-    appId: "1:1088508330152:web:1916e93660d824628e029d"
-
+      apiKey: "AIzaSyAcgrGvWtjVrDa5aNbeRDlrt3plZM1hSvE",
+      authDomain: "gossip-girl-45241.firebaseapp.com",
+      projectId: "gossip-girl-45241",
+      storageBucket: "gossip-girl-45241.appspot.com",
+      messagingSenderId: "1088508330152",
+      appId: "1:1088508330152:web:1916e93660d824628e029d"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -66,7 +70,7 @@
       const confirmPassword = document.getElementById("confirm-password").value;
 
       if (password !== confirmPassword) {
-        alert("Passwords do not match.");
+        alert("كلمتا المرور غير متطابقتين.");
         return;
       }
 
@@ -81,9 +85,9 @@
 
         await setDoc(doc(db, "users", user.uid), { username });
 
-        window.location.href = "chat.html";
+        window.location.href = "chat-ar.html";
       } catch (error) {
-        alert("Sign-up failed: " + error.message);
+        alert("فشل في التسجيل: " + error.message);
       }
     });
   </script>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gossip Queen</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<body>
+  <header>
+    <div class="logo">Gossip Queen</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="submit.html">أرسلي قصتك</a></li>
+        <li><a href="chat.html">الدردشة</a></li>
+        <li><a href="about.html">من نحن</a></li>
+      </ul>
+    </nav>
+<div class="lang-switcher">
+  <a href="index.html">English</a>
+</div>
+
+    <div class="auth-buttons">
+      <button onclick="window.location.href='signup.html'">إنشاء حساب</button>
+      <button onclick="window.location.href='login.html'">تسجيل الدخول</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="gossip-feed">
+      <h2>أحدث الحكايات</h2>
+      <div id="gossip-posts">
+
+        <div class="gossip-post">
+          <h2>تم رصدها!</h2>
+          <p><strong>Gossip Queen</strong> وصلت أخيرًا — ومعها مملكة جديدة تمامًا!</p>
+          <p>من القصص الغامضة إلى الاعترافات الصادمة، هذا المكان أصبح منصة لكل الحقائق المخفية، الذكريات المشتعلة، والأسرار التي تُهمَس في الظلام.</p>
+          <p>الآن دورك... احكي، افضحي، اتركي الأثر. سواء كانت قصة من تجربتك أو شيء لا بد أن يعرفه العالم، <strong>الملكة النمّامة</strong> مستعدة تسمع.</p>
+          <p>ولا تقلقي... هويتك في أمان تام.</p>
+          <p>قصصك كانت دومًا مثيرة — والآن عندك عرش تحكيها منه.</p>
+          <p class="xoxo">XOXO، Gossip Queen</p>
+          <button class="like-btn">❤ إعجاب</button> <span class="like-count">0</span>
+
+          <div class="comments">
+            <input type="text" class="comment-input" placeholder="اكتبي تعليقًا...">
+            <button class="comment-btn">أضيفي التعليق</button>
+            <div class="comments-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>XOXO، Gossip Queen</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "755951a2-e45e-4f05-a6be-fcd890e997b7",
+        promptOptions: {
+          slidedown: {
+            enabled: true,
+            actionMessage: "تبين توصلك الإشاعات أول بأول؟",
+            acceptButtonText: "طبعًا، اسكبوا الشاي!",
+            cancelButtonText: "مو الحين"
+          }
+        },
+        notifyButton: {
+          enable: true,
+        }
+      });
+    });
+  </script>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore, collection, doc, setDoc, getDoc,
+      onSnapshot, updateDoc, increment, addDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAcgrGvWtjVrDa5aNbeRDlrt3plZM1hSvE",
+      authDomain: "gossip-girl-45241.firebaseapp.com",
+      projectId: "gossip-girl-45241",
+      storageBucket: "gossip-girl-45241.appspot.com",
+      messagingSenderId: "1088508330152",
+      appId: "1:1088508330152:web:1916e93660d824628e029d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const storyId = "gossip-post-1";
+    const postRef = doc(db, "posts", storyId);
+
+    const docSnap = await getDoc(postRef);
+    if (!docSnap.exists()) {
+      await setDoc(postRef, { likes: 0 });
+    }
+
+    onSnapshot(postRef, (doc) => {
+      document.querySelector('.like-count').textContent = doc.data().likes || 0;
+    });
+
+    document.querySelector('.like-btn').addEventListener('click', () => {
+      updateDoc(postRef, { likes: increment(1) });
+    });
+
+    const commentsCol = collection(db, "posts", storyId, "comments");
+
+    document.querySelector('.comment-btn').addEventListener('click', async () => {
+      const input = document.querySelector('.comment-input');
+      const text = input.value.trim();
+      if (text) {
+        await addDoc(commentsCol, {
+          text: text,
+          created: new Date()
+        });
+        input.value = "";
+      }
+    });
+
+    onSnapshot(commentsCol, (snapshot) => {
+      const commentsDiv = document.querySelector('.comments-list');
+      commentsDiv.innerHTML = "";
+      snapshot.forEach(doc => {
+        const c = doc.data();
+        const div = document.createElement('div');
+        div.textContent = c.text;
+        commentsDiv.appendChild(div);
+      });
+    });
+  </script>
+
+  <script>
+    document.getElementById("startButton")?.addEventListener("click", function () {
+      const names = ["Royal", "Whisperer", "Velvet", "Crown", "Secret", "Diva", "Queen", "Sparkle"];
+      const randomName = names[Math.floor(Math.random() * names.length)];
+      const randomNum = Math.floor(100 + Math.random() * 900);*

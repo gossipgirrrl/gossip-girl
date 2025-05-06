@@ -265,3 +265,58 @@ footer {
 .auth-form p {
   font-size: 14px;
 }
+/* General RTL support */
+body[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+  font-family: 'Cairo', 'Tajawal', sans-serif; /* Arabic-friendly fonts */
+}
+
+/* Adjust header and nav if needed */
+body[dir="rtl"] header nav ul {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+body[dir="rtl"] .auth-buttons {
+  flex-direction: row-reverse;
+}
+
+/* Comments and inputs aligned right */
+body[dir="rtl"] .comment-input,
+body[dir="rtl"] .comments-list,
+body[dir="rtl"] input,
+body[dir="rtl"] textarea {
+  text-align: right;
+}
+
+/* Optional: Flip paddings/margins if needed */
+body[dir="rtl"] .gossip-post {
+  padding-left: 10px;
+  padding-right: 0;
+}
+body[dir="rtl"] {
+  font-family: 'Amiri', serif; 
+  text-align: right;
+  direction: rtl;
+}
+.lang-switcher {
+  position: absolute;
+  top: 10px;
+  left: 10px; /* RTL: moves to top-left */
+  font-size: 0.9rem;
+  background-color: #fff0f6;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.lang-switcher a {
+  color: #c2185b;
+  text-decoration: none;
+}
+
+.lang-switcher a:hover {
+  text-decoration: underline;
+}
