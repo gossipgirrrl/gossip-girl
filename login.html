@@ -18,17 +18,16 @@
         <li><a href="about.html">About</a></li>
       </ul>
     </nav>
-<div class="lang-switcher">
-  <a href="index-ar.html">العربية</a>
-</div>
-
+    <div class="lang-switcher">
+      <a href="index-ar.html">العربية</a>
+    </div>
   </header>
 
   <main class="auth-main">
     <h2>Welcome Back, Queen</h2>
-    <form class="auth-form">
-      <input type="email" placeholder="Email" required />
-      <input type="password" placeholder="Password" required />
+    <form class="auth-form" id="login-form">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
       <button type="submit">Sign In</button>
       <p>Don't have an account? <a href="signup.html">Sign up</a></p>
     </form>
@@ -37,5 +36,37 @@
   <footer>
     <p>XOXO, Gossip Queen</p>
   </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAcgrGvWtjVrDa5aNbeRDlrt3plZM1hSvE",
+      authDomain: "gossip-girl-45241.firebaseapp.com",
+      projectId: "gossip-girl-45241",
+      storageBucket: "gossip-girl-45241.appspot.com",
+      messagingSenderId: "1088508330152",
+      appId: "1:1088508330152:web:1916e93660d824628e029d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "chat.html";
+      } catch (error) {
+        alert("Login failed: " + error.message);
+      }
+    });
+  </script>
 </body>
 </html>
+
