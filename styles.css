@@ -79,6 +79,13 @@ main {
   transition: transform 0.3s ease;
 }
 
+.gossip-post {
+display:flex;
+gap 20px;
+justify-content:center;
+margin:20px;
+}
+
 .gossip-post:hover {
   transform: scale(1.05);
 }
