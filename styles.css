@@ -60,11 +60,12 @@ main {
 }
 
 #gossip-posts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 30px;
+ display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+  justify-items: center;
+  margin: 40px auto;
+  max-width: 1200px;
 }
 
 .gossip-post {
